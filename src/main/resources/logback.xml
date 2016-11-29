@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="logback.xsd" debug="false">
+
+    <property file="${MainPath:-/nextinno/underground/current/conf}/underground.conf"></property>
+
+    <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 로그 파일 이름 -->
+        <file>${LogPath:-/var/nextinno/underground/logs}/underground.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LogPath:-/var/nextinno/underground/logs}/underground-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 파일 하나의 최대 용량 -->
+                <maxFileSize>${LogMaxFileSize:-64}MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 저장 기간 -->
+            <!-- 설정 값이 1이고 로그 생성일이 1월 1일이라면 1월 3일이 될때 제거된다. -->
+            <maxHistory>${LogMaxHistory:-30}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-5level | %d{yyyy-MM-dd HH:mm.ss.SSS} | %logger{35}[%method:%line][%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- SQL 로그 관리 -->
+    <logger name="java.sql">
+        <level value="DEBUG" />
+        <appender-ref ref="fileLog" />
+    </logger>
+    <!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 보여진다. -->
+    <logger name="jdbc.sqlonly">
+        <level value="DEBUG" />
+        <appender-ref ref="fileLog" />
+    </logger>
+    <!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함한다. -->
+    <logger name="jdbc.sqltiming">
+        <level value="DEBUG" />
+        <appender-ref ref="fileLog" />
+    </logger>
+
+    <!-- 설정 파일에서 로그 레벨을 가져온다. -->
+    <if condition='property("LogLevel").equals("LOG_DEBUG")'>
+        <then>
+            <property name="LOG_LEVEL" value="DEBUG" />
+        </then>
+    </if>
+    <if condition='property("LogLevel").equals("LOG_INFO")'>
+        <then>
+            <property name="LOG_LEVEL" value="INFO" />
+        </then>
+    </if>
+    <if condition='property("LogLevel").equals("LOG_ERROR")'>
+        <then>
+            <property name="LOG_LEVEL" value="ERROR" />
+        </then>
+    </if>
+
+    <root level="${LOG_LEVEL:-INFO}">
+        <appender-ref ref="fileLog" />
+    </root>
+</configuration>
