@@ -49,7 +49,7 @@ public class User extends AbstractDomain{
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("User{");
-        sb.append(super.toString()).append('\'');
+        sb.append(" "+super.toString()).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", password='").append(password).append('\'');
