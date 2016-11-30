@@ -1,7 +1,7 @@
 package com.nextinno.underground.login;
 
 import com.nextinno.underground.api.API;
-import com.nextinno.underground.global.domain.ErrorResponse;
+import com.nextinno.underground.domain.ErrorResponse;
 import com.nextinno.underground.token.Token;
 import com.nextinno.underground.token.TokenDto;
 import com.nextinno.underground.user.AlreadyExistUserException;
@@ -41,7 +41,7 @@ public class LoginController {
     private ModelMapper modelMapper;
 
     /**
-     *
+     * 로그인
      * @param reqLogin
      * @param result
      * @return 성공시 200, 실패시 NotEqualPasswordException or UserNotFoundException
@@ -74,6 +74,7 @@ public class LoginController {
         User user = new User(reqUser);
 
         User resultUser = loginService.saveUser(user);
+        System.out.println(resultUser.toString());
         return new ResponseEntity<>(modelMapper.map(resultUser, UserDto.ResponseUser.class), HttpStatus.CREATED);
     }
 

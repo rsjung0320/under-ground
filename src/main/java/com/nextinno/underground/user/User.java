@@ -1,6 +1,8 @@
 package com.nextinno.underground.user;
 
+import com.nextinno.underground.domain.AbstractDomain;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +14,8 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class User {
-    @Id
-    @GeneratedValue
-    private Long idx;
+@EqualsAndHashCode(callSuper = true)
+public class User extends AbstractDomain{
 
     @Column(name = "email", nullable = false, unique = true)
     private String email = "";
@@ -44,5 +44,17 @@ public class User {
                 this.role = "ADMIN";
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("User{");
+        sb.append(super.toString()).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", role='").append(role).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

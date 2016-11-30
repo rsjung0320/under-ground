@@ -1,4 +1,4 @@
-package com.nextinno.underground.global.domain;
+package com.nextinno.underground.domain;
 
 import lombok.Data;
 

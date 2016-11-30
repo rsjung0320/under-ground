@@ -1,6 +1,5 @@
 package com.nextinno.underground.main;
 
-import com.nextinno.underground.config.UnderGroundConfig;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -19,10 +19,13 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import javax.servlet.Filter;
 import java.nio.charset.Charset;
 
-@EnableJpaRepositories(UnderGroundConfig.DEFAULT_BASE_PACKAGE)
-@EntityScan(UnderGroundConfig.DEFAULT_BASE_PACKAGE)
-@ComponentScan(basePackages = UnderGroundConfig.DEFAULT_BASE_PACKAGE)
+import static com.nextinno.underground.config.UnderGroundConfig.DEFAULT_BASE_PACKAGE;
+
+@EnableJpaRepositories(DEFAULT_BASE_PACKAGE)
+@EntityScan(DEFAULT_BASE_PACKAGE)
+@ComponentScan(basePackages = DEFAULT_BASE_PACKAGE)
 @SpringBootApplication
+@EnableJpaAuditing
 public class UnderGroundApplication {
     private static final Logger logger = LoggerFactory.getLogger(UnderGroundApplication.class);
 
